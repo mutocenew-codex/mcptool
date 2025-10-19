@@ -48,6 +48,9 @@ MCP_ENDPOINT=wss://api.xxx.com/ssdfqFGW
 
 #start mcp active
 python mcptool.py start
+#或单独执行single execute:
+# 或单独启动唤醒服务
+python mcptool.py start --server mcp-xiaozhi-awake
 
 #stop mcp service
 python mcptool.py stop
@@ -147,5 +150,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - Thanks to all contributors who have helped shape this project | 感谢所有帮助塑造这个项目的贡献者
 - Inspired by the need for extensible AI capabilities | 灵感来源于对可扩展AI能力的需求
+
 
 
