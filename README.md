@@ -71,7 +71,6 @@ Web管理界面已启动，访问 http://localhost:6789
 WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
  * Running on all addresses (0.0.0.0)
  * Running on http://127.0.0.1:6789
- * Running on http://192.168.3.175:6789
 
 *Requires `mcp_config.json` configuration file with server definitions (supports stdio/sse/http transport types)*
 
@@ -148,4 +147,5 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - Thanks to all contributors who have helped shape this project | 感谢所有帮助塑造这个项目的贡献者
 - Inspired by the need for extensible AI capabilities | 灵感来源于对可扩展AI能力的需求
+
 
