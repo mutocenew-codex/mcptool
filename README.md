@@ -31,10 +31,12 @@ pip install -r requirements.txt
 ```
 
 2. Set up environment variables | 设置环境变量:
-   ①短期临时设置环境变量
+
+    ①短期临时设置环境变量
 ```bash
 export MCP_ENDPOINT=<your_mcp_endpoint>
 ```
+
 ②长期设置，请在本例程的.env文件中设置。
 in .env file to set a long time environment varibles.
 ```
@@ -146,3 +148,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - Thanks to all contributors who have helped shape this project | 感谢所有帮助塑造这个项目的贡献者
 - Inspired by the need for extensible AI capabilities | 灵感来源于对可扩展AI能力的需求
+
