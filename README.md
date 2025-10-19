@@ -1,8 +1,12 @@
-# MCP Sample Project | MCP 示例项目
+本项目的主体程序从mcp-calculator中fork后创建。
+fork from GitHub：https://github.com/78/mcp-calculator
+
+# MCP Admin Sample Project | MCP 示例项目
 
 A powerful interface for extending AI capabilities through remote control, calculations, email operations, knowledge search, and more.
 
 一个强大的接口，用于通过远程控制、计算、邮件操作、知识搜索等方式扩展AI能力。
+具有自主管理mcp的基础开发能力。
 
 ## Overview | 概述
 
@@ -27,19 +31,45 @@ pip install -r requirements.txt
 ```
 
 2. Set up environment variables | 设置环境变量:
+   ①短期临时设置环境变量
 ```bash
 export MCP_ENDPOINT=<your_mcp_endpoint>
 ```
-
-3. Run the calculator example | 运行计算器示例:
-```bash
-python mcp_pipe.py calculator.py
+②长期设置，请在本例程的.env文件中设置。
+in .env file to set a long time environment varibles.
+```
+MCP_ENDPOINT=wss://api.xxx.com/ssdfqFGW
 ```
 
-Or run all configured servers | 或运行所有配置的服务:
+3. Run And Stop
 ```bash
-python mcp_pipe.py
+
+#start mcp active
+python mcptool.py start
+
+#stop mcp service
+python mcptool.py stop
+
+#scan mcp's status
+pyton mcptool.py status
 ```
+
+Or run web configured admin servers | 或运行网页版配置服务更简单:
+```bash
+
+python mcptool.py web
+
+#or diy the port
+python mcptool.py web --port 6789
+```
+
+Web管理界面已启动，访问 http://localhost:6789
+ * Serving Flask app 'mcp_web'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:6789
+ * Running on http://192.168.3.175:6789
 
 *Requires `mcp_config.json` configuration file with server definitions (supports stdio/sse/http transport types)*
 
@@ -90,12 +120,15 @@ if __name__ == "__main__":
 
 ## Requirements | 环境要求
 
-- Python 3.7+
-- websockets>=11.0.3
 - python-dotenv>=1.0.0
+- websockets>=11.0.3 
 - mcp>=1.8.1
 - pydantic>=2.11.4
 - mcp-proxy>=0.8.2
+- flask>=2.3.3        # 用于HTTP页面
+- click>=8.1.7        # 用于命令行工具
+- psutil>=5.9.5       # 用于进程管理
+- werkzeug<3.1.2  # 添加此行以解决冲突
 
 ## Contributing | 贡献指南
 
