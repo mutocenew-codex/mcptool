@@ -29,16 +29,117 @@ import signal
 import sys
 import json
 from dotenv import load_dotenv
+from datetime import datetime
+import threading
 
 # Auto-load environment variables from a .env file if present
 load_dotenv()
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
+# 彩色日志配置
+class ColoredFormatter(logging.Formatter):
+    """彩色日志格式化器"""
+    COLORS = {
+        'DEBUG': '\033[36m',    # 青色
+        'INFO': '\033[32m',     # 绿色
+        'WARNING': '\033[33m',  # 黄色
+        'ERROR': '\033[31m',    # 红色
+        'CRITICAL': '\033[35m', # 紫色
+    }
+    RESET = '\033[0m'
+    
+    def format(self, record):
+        log_color = self.COLORS.get(record.levelname, '')
+        record.levelname = f"{log_color}{record.levelname}{self.RESET}"
+        return super().format(record)
+
+# 配置彩色日志
 logger = logging.getLogger('MCP_PIPE')
+logger.setLevel(logging.INFO)
+handler = logging.StreamHandler()
+formatter = ColoredFormatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+
+# 状态文件路径
+STATUS_FILE = os.path.join(os.getcwd(), ".mcp_status.json")
+
+# 状态管理
+def init_status_file():
+    """初始化状态文件"""
+    try:
+        if not os.path.exists(STATUS_FILE):
+            with open(STATUS_FILE, "w", encoding="utf-8") as f:
+                json.dump({
+                    "endpoints": {},
+                    "tools": {}
+                }, f, indent=2)
+    except Exception as e:
+        logger.error(f"初始化状态文件失败: {e}")
+
+def update_tool_status(server_name, status, error="", tools=None):
+    """更新工具状态"""
+    try:
+        with open(STATUS_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except:
+        data = {"endpoints": {}, "tools": {}}
+    
+    data["tools"][server_name] = {
+        "status": status,
+        "error": error,
+        "tools": tools or [],
+        "last_updated": datetime.now().isoformat()
+    }
+    
+    try:
+        with open(STATUS_FILE, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
+    except Exception as e:
+        logger.error(f"更新工具状态失败: {e}")
+
+async def get_tools_from_server_async(process, target):
+    """异步从MCP服务器获取工具列表"""
+    try:
+        from mcp import ClientSession
+        from mcp.client.stdio import stdio_client
+        from mcp import StdioServerParameters
+        
+        # 重新启动服务器进程来获取工具
+        server_params = StdioServerParameters(
+            command=process.args[0] if hasattr(process, 'args') else "python",
+            args=process.args[1:] if hasattr(process, 'args') and len(process.args) > 1 else ["-m", "calculator"]
+        )
+        
+        async with stdio_client(server_params) as (read, write):
+            async with ClientSession(read, write) as session:
+                # 初始化
+                await session.initialize()
+                
+                # 获取工具列表
+                tools_result = await session.list_tools()
+                
+                tools = []
+                for tool in tools_result.tools:
+                    tools.append({
+                        "name": tool.name,
+                        "description": tool.description or "",
+                        "inputSchema": tool.inputSchema
+                    })
+                
+                logger.info(f"[{target}] 成功获取到 {len(tools)} 个工具")
+                return tools
+                
+    except Exception as e:
+        logger.warning(f"[{target}] 获取工具列表失败: {e}")
+        return []
+
+def get_tools_from_server(process, target):
+    """从MCP服务器获取工具列表（同步包装）"""
+    try:
+        return asyncio.run(get_tools_from_server_async(process, target))
+    except Exception as e:
+        logger.warning(f"[{target}] 获取工具列表失败: {e}")
+        return []
 
 # Reconnection settings
 INITIAL_BACKOFF = 1  # Initial wait time in seconds
@@ -65,6 +166,7 @@ async def connect_with_retry(uri, target):
 
 async def connect_to_server(uri, target):
     """Connect to WebSocket server and pipe stdio for the given server target."""
+    process = None
     try:
         logger.info(f"[{target}] Connecting to WebSocket server...")
         async with websockets.connect(uri) as websocket:
@@ -83,6 +185,27 @@ async def connect_to_server(uri, target):
             )
             logger.info(f"[{target}] Started server process: {' '.join(cmd)}")
             
+            # 更新状态为运行中
+            update_tool_status(target, "运行中")
+            
+            # 延迟获取工具列表，给服务器时间初始化
+            async def get_tools_delayed():
+                await asyncio.sleep(3)  # 等待3秒让服务器完全初始化
+                try:
+                    tools = await get_tools_from_server_async(process, target)
+                    if tools:
+                        logger.info(f"[{target}] 发现 {len(tools)} 个工具: {[tool.get('name', 'unknown') for tool in tools]}")
+                        update_tool_status(target, "运行中", tools=tools)
+                    else:
+                        logger.warning(f"[{target}] 未发现工具")
+                        update_tool_status(target, "运行中", tools=[])
+                except Exception as e:
+                    logger.warning(f"[{target}] 获取工具列表时出错: {e}")
+                    update_tool_status(target, "运行中", tools=[])
+            
+            # 在后台任务中获取工具
+            asyncio.create_task(get_tools_delayed())
+            
             # Create two tasks: read from WebSocket and write to process, read from process and write to WebSocket
             await asyncio.gather(
                 pipe_websocket_to_process(websocket, process, target),
@@ -91,13 +214,15 @@ async def connect_to_server(uri, target):
             )
     except websockets.exceptions.ConnectionClosed as e:
         logger.error(f"[{target}] WebSocket connection closed: {e}")
+        update_tool_status(target, "错误", f"WebSocket连接关闭: {e}")
         raise  # Re-throw exception to trigger reconnection
     except Exception as e:
         logger.error(f"[{target}] Connection error: {e}")
+        update_tool_status(target, "错误", f"连接错误: {e}")
         raise  # Re-throw exception
     finally:
         # Ensure the child process is properly terminated
-        if 'process' in locals():
+        if process:
             logger.info(f"[{target}] Terminating server process")
             try:
                 process.terminate()
@@ -105,6 +230,7 @@ async def connect_to_server(uri, target):
             except subprocess.TimeoutExpired:
                 process.kill()
             logger.info(f"[{target}] Server process terminated")
+            update_tool_status(target, "已停止")
 
 async def pipe_websocket_to_process(websocket, process, target):
     """Read data from WebSocket and write to process stdin"""
@@ -240,6 +366,9 @@ def build_server_command(target=None):
     return [sys.executable, script_path], os.environ.copy()
 
 if __name__ == "__main__":
+    # 初始化状态文件
+    init_status_file()
+    
     # Register signal handler
     signal.signal(signal.SIGINT, signal_handler)
     

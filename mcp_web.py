@@ -260,66 +260,112 @@ HTML_TEMPLATE = """
         /* 基础样式 */
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            max-width: 1000px; 
+            max-width: 1200px; 
             margin: 0 auto; 
             padding: 20px; 
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #333;
             min-height: 100vh;
         }
 
         /* 标题样式 */
-        h1 { color: #ffffff; text-align: center; margin: 20px 0 30px; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-        h2 { color: #2c3e50; border-bottom: 1px solid #e0e0e0; padding-bottom: 8px; margin: 0 0 20px; }
-        h3 { color: #34495e; margin: 15px 0; }
+        h1 { 
+            color: #ffffff; 
+            text-align: center; 
+            margin: 20px 0 30px; 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+        h2 { 
+            color: #2c3e50; 
+            border-bottom: 2px solid #e0e0e0; 
+            padding-bottom: 10px; 
+            margin: 0 0 20px; 
+            font-size: 1.4em;
+            font-weight: 500;
+        }
+        h3 { 
+            color: #34495e; 
+            margin: 15px 0; 
+            font-size: 1.1em;
+            font-weight: 500;
+        }
 
         /* 工作区容器 */
         .section { 
             background-color: #ffffff;
             margin-bottom: 25px; 
-            padding: 25px; 
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: transform 0.2s ease;
+            padding: 30px; 
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.2);
         }
-        .section:hover { transform: translateY(-2px); }
+        .section:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
 
         /* 输入与选择器 */
         input, textarea, select { 
             width: 100%; 
-            padding: 10px 12px; 
+            padding: 12px 16px; 
             margin: 8px 0 15px; 
             box-sizing: border-box; 
-            border: 1px solid #d0d0d0;
-            border-radius: 6px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
             font-size: 14px;
-            transition: border 0.3s ease;
+            transition: all 0.3s ease;
+            background: #fafbfc;
         }
         input:focus, textarea:focus, select:focus {
-            border-color: #4a90e2;
+            border-color: #667eea;
             outline: none;
-            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.1);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: #ffffff;
         }
-        textarea { resize: vertical; min-height: 60px; }
+        textarea { 
+            resize: vertical; 
+            min-height: 80px; 
+            font-family: 'Courier New', monospace;
+        }
 
         /* 按钮样式 */
         button { 
-            background-color: #4a90e2; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white; 
-            padding: 10px 18px; 
+            padding: 12px 24px; 
             border: none; 
-            border-radius: 6px; 
+            border-radius: 10px; 
             cursor: pointer; 
             transition: all 0.3s ease;
             font-size: 14px;
-            margin: 5px 5px 5px 0;
+            font-weight: 500;
+            margin: 5px 8px 5px 0;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
-        button:hover { background-color: #3a80d2; transform: translateY(-1px); }
-        button.stop { background-color: #e74c3c; }
-        button.stop:hover { background-color: #c0392b; }
-        button.backup { background-color: #f39c12; }
-        button.backup:hover { background-color: #d35400; }
-        button:active { transform: translateY(1px); }
+        button:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        button.stop { 
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+        button.stop:hover { 
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+        }
+        button.backup { 
+            background: linear-gradient(135deg, #f39c12 0%, #d35400 100%);
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.3);
+        }
+        button.backup:hover { 
+            box-shadow: 0 6px 20px rgba(243, 156, 18, 0.4);
+        }
+        button:active { 
+            transform: translateY(0px); 
+        }
 
         /* 配置项样式 */
         .config-entry { 
@@ -405,10 +451,214 @@ HTML_TEMPLATE = """
             transform: scale(1.1);
         }
         label { color: #555; font-size: 14px; }
+
+        /* 工具列表样式 - 标签式布局 */
+        .tools-section {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #4a90e2;
+        }
+        .tools-section h4 {
+            margin: 0 0 15px 0;
+            color: #2c3e50;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .tools-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .tool-tag {
+            display: inline-block;
+            padding: 6px 12px;
+            background: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #495057;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: default;
+        }
+        .tool-tag:hover {
+            background: #e9ecef;
+            border-color: #adb5bd;
+            transform: translateY(-1px);
+        }
+        .tool-tag.has-description {
+            position: relative;
+        }
+        .tool-tag.has-description:hover::after {
+            content: attr(data-description);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            white-space: nowrap;
+            z-index: 1000;
+            margin-bottom: 5px;
+        }
+        .tool-tag.has-description:hover::before {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 4px solid transparent;
+            border-top-color: #333;
+            z-index: 1000;
+        }
+        
+        /* 导入区域样式 */
+        .import-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #e1e5e9;
+        }
+        
+        .import-controls {
+            margin-bottom: 15px;
+        }
+        
+        .import-controls textarea {
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.4;
+            background: #ffffff;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+        
+        .import-controls textarea:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .import-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .import-buttons button {
+            margin: 0;
+            padding: 10px 20px;
+            font-size: 13px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+        }
+        
+        .import-result {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .import-result.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        
+        .import-result.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+        
+        .import-result.warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+            display: block;
+        }
+        
+        /* 服务统计样式 */
+        .stats-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+        .stat-number {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
     </style>
 </head>
 <body>
     <h1>MCP工具管理中心</h1>
+    
+    <!-- 服务统计区域 -->
+    <div class="stats-section">
+        <h2 style="margin: 0 0 10px 0; color: white;">平台服务概览</h2>
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number" id="total-servers">0</div>
+                <div class="stat-label">MCP服务器</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="total-tools">0</div>
+                <div class="stat-label">可用工具</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="running-servers">0</div>
+                <div class="stat-label">运行中</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="total-endpoints">0</div>
+                <div class="stat-label">连接端点</div>
+            </div>
+        </div>
+    </div>
     
     <div class="section">
         <h2>服务状态</h2>
@@ -460,6 +710,21 @@ HTML_TEMPLATE = """
     
     <div class="section">
         <h2>服务器配置</h2>
+        
+        <!-- 快速导入区域 -->
+        <div class="import-section">
+            <h3>快速导入服务器</h3>
+            <div class="import-controls">
+                <textarea id="importData" placeholder="粘贴JSON格式的服务器配置数据，例如：&#10;{&#10;  &quot;mcpServers&quot;: {&#10;    &quot;fetch&quot;: {&#10;      &quot;type&quot;: &quot;sse&quot;,&#10;      &quot;url&quot;: &quot;https://mcp.api-inference.modelscope.net/ba2d328c5a9c44/sse&quot;&#10;    }&#10;  }&#10;}" rows="8"></textarea>
+                <div class="import-buttons">
+                    <button onclick="importServers()" class="btn btn-primary">导入服务器</button>
+                    <button onclick="importServersForce()" class="btn btn-warning">强制导入（覆盖）</button>
+                    <button onclick="clearImportData()" class="btn btn-secondary">清空</button>
+                </div>
+            </div>
+            <div id="importResult" class="import-result"></div>
+        </div>
+        
         <!-- 配置备份区域 -->
         <div class="button-group">
             <h3>配置备份</h3>
@@ -513,6 +778,21 @@ HTML_TEMPLATE = """
                 
                 <label>环境变量 (JSON格式):</label>
                 <textarea class="server-env" data-name="{{ server_name }}" rows="2">{{ config.env | default({}) | tojson }}</textarea>
+                
+                <!-- 工具列表显示 -->
+                {% if tool_status.get(server_name, {}).tools %}
+                <div class="tools-section">
+                    <h4>可用工具 ({{ tool_status.get(server_name, {}).tools | length }}个):</h4>
+                    <div class="tools-list">
+                        {% for tool in tool_status.get(server_name, {}).tools %}
+                        <span class="tool-tag {% if tool.description %}has-description{% endif %}" 
+                              {% if tool.description %}data-description="{{ tool.description }}"{% endif %}>
+                            {{ tool.name }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
                 
                 {% if tool_status.get(server_name, {}).status == '错误' %}
                 <div class="error-log">
@@ -605,8 +885,12 @@ HTML_TEMPLATE = """
                 .then(res => res.ok ? res.json() : Promise.reject('获取失败'))
                 .then(data => {
                     Object.entries(data).forEach(([name, status]) => {
-                        const badge = document.querySelector(`.server-type[data-name="${name}"]`).closest('.config-entry')?.querySelector('.status-badge');
-                        const errorLog = document.querySelector(`.server-type[data-name="${name}"]`).closest('.config-entry')?.querySelector('.error-log');
+                        const entry = document.querySelector(`.server-type[data-name="${name}"]`).closest('.config-entry');
+                        if (!entry) return;
+                        
+                        const badge = entry.querySelector('.status-badge');
+                        const errorLog = entry.querySelector('.error-log');
+                        const toolsSection = entry.querySelector('.tools-section');
                         
                         if (badge) {
                             badge.className = `status-badge 
@@ -617,9 +901,81 @@ HTML_TEMPLATE = """
                         if (errorLog) {
                             errorLog.textContent = `错误: ${status.error || '未知错误'}`;
                         }
+                        
+                        // 更新工具列表
+                        updateToolsList(entry, status.tools || []);
                     });
                 })
                 .catch(err => console.error('工具状态更新失败:', err));
+        }
+        
+        // 更新工具列表显示
+        function updateToolsList(entry, tools) {
+            let toolsSection = entry.querySelector('.tools-section');
+            
+            if (tools.length > 0) {
+                if (!toolsSection) {
+                    // 创建工具列表区域
+                    toolsSection = document.createElement('div');
+                    toolsSection.className = 'tools-section';
+                    toolsSection.innerHTML = '<h4>可用工具:</h4><div class="tools-list"></div>';
+                    
+                    // 插入到环境变量输入框之后
+                    const envTextarea = entry.querySelector('.server-env');
+                    envTextarea.parentNode.insertBefore(toolsSection, envTextarea.nextSibling);
+                }
+                
+                const toolsList = toolsSection.querySelector('.tools-list');
+                toolsList.innerHTML = tools.map(tool => `
+                    <span class="tool-tag ${tool.description ? 'has-description' : ''}" 
+                          ${tool.description ? `data-description="${tool.description}"` : ''}>
+                        ${tool.name || '未知工具'}
+                    </span>
+                `).join('');
+                
+                // 更新工具数量
+                const h4 = toolsSection.querySelector('h4');
+                h4.textContent = `可用工具 (${tools.length}个):`;
+            } else if (toolsSection) {
+                // 如果没有工具，移除工具列表区域
+                toolsSection.remove();
+            }
+        }
+        
+        // 更新统计信息
+        function updateStats() {
+            // 获取配置中的服务器数量
+            fetch('/config-info')
+                .then(res => res.ok ? res.json() : Promise.reject('获取失败'))
+                .then(configData => {
+                    const totalServers = configData.servers || 0;
+                    const totalEndpoints = configData.endpoints || 0;
+                    
+                    // 获取工具状态
+                    fetch('/tool-status')
+                        .then(res => res.ok ? res.json() : Promise.reject('获取失败'))
+                        .then(data => {
+                            let totalTools = 0;
+                            let runningServers = 0;
+                            
+                            Object.entries(data).forEach(([name, info]) => {
+                                if (info.tools && Array.isArray(info.tools)) {
+                                    totalTools += info.tools.length;
+                                }
+                                if (info.status === '运行中') {
+                                    runningServers++;
+                                }
+                            });
+                            
+                            // 更新显示
+                            document.getElementById('total-servers').textContent = totalServers;
+                            document.getElementById('total-tools').textContent = totalTools;
+                            document.getElementById('running-servers').textContent = runningServers;
+                            document.getElementById('total-endpoints').textContent = totalEndpoints;
+                        })
+                        .catch(err => console.error('工具状态获取失败:', err));
+                })
+                .catch(err => console.error('配置信息获取失败:', err));
         }
         
         // 服务控制
@@ -654,6 +1010,101 @@ HTML_TEMPLATE = """
                     alert('停止失败: ' + err);
                     getStatus();
                 });
+        }
+        
+        // 导入服务器功能
+        function importServers() {
+            const importData = document.getElementById('importData').value.trim();
+            if (!importData) {
+                showImportResult('请输入要导入的JSON数据', 'error');
+                return;
+            }
+            
+            try {
+                const data = JSON.parse(importData);
+                if (!data.mcpServers) {
+                    showImportResult('JSON格式错误：缺少mcpServers字段', 'error');
+                    return;
+                }
+                
+                fetch('/import-servers', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                })
+                .then(res => res.json())
+                .then(result => {
+                    if (result.status === 'success') {
+                        showImportResult(result.message, 'success');
+                        clearImportData();
+                        // 刷新页面以显示新导入的服务器
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1500);
+                    } else if (result.status === 'warning') {
+                        showImportResult(`${result.message} 点击"强制导入"按钮覆盖现有配置`, 'warning');
+                    } else {
+                        showImportResult(result.message, 'error');
+                    }
+                })
+                .catch(err => {
+                    showImportResult('导入失败: ' + err, 'error');
+                });
+            } catch (e) {
+                showImportResult('JSON格式错误: ' + e.message, 'error');
+            }
+        }
+        
+        function importServersForce() {
+            const importData = document.getElementById('importData').value.trim();
+            if (!importData) {
+                showImportResult('请输入要导入的JSON数据', 'error');
+                return;
+            }
+            
+            try {
+                const data = JSON.parse(importData);
+                if (!data.mcpServers) {
+                    showImportResult('JSON格式错误：缺少mcpServers字段', 'error');
+                    return;
+                }
+                
+                fetch('/import-servers-force', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                })
+                .then(res => res.json())
+                .then(result => {
+                    if (result.status === 'success') {
+                        showImportResult(result.message, 'success');
+                        clearImportData();
+                        // 刷新页面以显示新导入的服务器
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1500);
+                    } else {
+                        showImportResult(result.message, 'error');
+                    }
+                })
+                .catch(err => {
+                    showImportResult('强制导入失败: ' + err, 'error');
+                });
+            } catch (e) {
+                showImportResult('JSON格式错误: ' + e.message, 'error');
+            }
+        }
+        
+        function clearImportData() {
+            document.getElementById('importData').value = '';
+            document.getElementById('importResult').style.display = 'none';
+        }
+        
+        function showImportResult(message, type) {
+            const resultDiv = document.getElementById('importResult');
+            resultDiv.textContent = message;
+            resultDiv.className = `import-result ${type}`;
+            resultDiv.style.display = 'block';
         }
         
         // 服务器配置管理
@@ -760,8 +1211,17 @@ HTML_TEMPLATE = """
             })
             .then(res => res.ok ? res.json() : res.json().then(err => Promise.reject(err.message)))
             .then(() => {
-                showMessage('endpoints-config-message', '端点配置已保存');
-                updateEndpointStatus();
+                showMessage('endpoints-config-message', '端点配置已保存，正在重新连接...');
+                // 重新启动端点监控
+                fetch('/restart-endpoint-monitors', { method: 'POST' })
+                    .then(() => {
+                        // 延迟更新状态，给监控时间重新连接
+                        setTimeout(() => {
+                            updateEndpointStatus();
+                            updateStats();
+                        }, 2000);
+                    })
+                    .catch(err => console.error('重启端点监控失败:', err));
             })
             .catch(err => {
                 showMessage('endpoints-config-message', '保存失败: ' + err, true);
@@ -817,12 +1277,14 @@ HTML_TEMPLATE = """
             loadBackupHistory();
             updateEndpointStatus();
             updateToolStatus();
+            updateStats();
             
             // 定时刷新状态（5秒一次）
             setInterval(() => {
                 getStatus();
                 updateEndpointStatus();
                 updateToolStatus();
+                updateStats();
             }, 5000);
         }
         
@@ -1058,6 +1520,21 @@ def tool_status():
         name: {
             "status": tool.get("status", "未运行"),
             "error": tool.get("error", ""),
+            "last_check": tool.get("last_updated", ""),
+            "tools": tool.get("tools", [])
+        } for name, tool in status["tools"].items()
+    })
+
+
+@app.route('/server-tools')
+def server_tools():
+    """获取所有服务器的工具列表"""
+    status = read_status()
+    return jsonify({
+        name: {
+            "status": tool.get("status", "未运行"),
+            "tools": tool.get("tools", []),
+            "error": tool.get("error", ""),
             "last_check": tool.get("last_updated", "")
         } for name, tool in status["tools"].items()
     })
@@ -1076,6 +1553,115 @@ def backup_config():
 def backup_history():
     history = get_backup_history()
     return jsonify({"backups": history})
+
+
+@app.route('/restart-endpoint-monitors', methods=['POST'])
+def restart_endpoint_monitors():
+    """重启端点监控"""
+    try:
+        # 停止现有监控
+        global endpoint_monitor_threads
+        if 'endpoint_monitor_threads' in globals():
+            for thread in endpoint_monitor_threads:
+                if thread.is_alive():
+                    # 这里可以添加停止逻辑，但简单起见我们重新启动
+                    pass
+        
+        # 重新启动监控
+        start_endpoint_monitors()
+        return jsonify({"status": "restarted"})
+    except Exception as e:
+        print(f"重启端点监控失败: {e}")
+        return jsonify({"status": "error", "message": str(e)}), 500
+
+
+@app.route('/config-info')
+def config_info():
+    """获取配置信息统计"""
+    try:
+        config = load_config()
+        servers = config.get("mcpServers", {})
+        endpoints = config.get("mcpEndpoints", {})
+        
+        return jsonify({
+            "servers": len(servers),
+            "endpoints": len(endpoints)
+        })
+    except Exception as e:
+        print(f"获取配置信息失败: {e}")
+        return jsonify({"servers": 0, "endpoints": 0})
+
+@app.route('/import-servers', methods=['POST'])
+def import_servers():
+    """导入MCP服务器配置"""
+    try:
+        data = request.get_json()
+        if not data or 'mcpServers' not in data:
+            return jsonify({"status": "error", "message": "无效的导入数据格式"}), 400
+        
+        # 加载现有配置
+        config = load_config()
+        if 'mcpServers' not in config:
+            config['mcpServers'] = {}
+        
+        # 导入新服务器
+        imported_count = 0
+        for server_name, server_config in data['mcpServers'].items():
+            if server_name not in config['mcpServers']:
+                config['mcpServers'][server_name] = server_config
+                imported_count += 1
+            else:
+                # 如果服务器已存在，询问是否覆盖
+                return jsonify({
+                    "status": "warning", 
+                    "message": f"服务器 '{server_name}' 已存在，是否覆盖？",
+                    "conflict": server_name
+                }), 409
+        
+        # 保存配置
+        save_config(config)
+        
+        return jsonify({
+            "status": "success", 
+            "message": f"成功导入 {imported_count} 个服务器",
+            "imported_count": imported_count
+        })
+        
+    except Exception as e:
+        print(f"导入服务器失败: {e}")
+        return jsonify({"status": "error", "message": f"导入失败: {str(e)}"}), 500
+
+@app.route('/import-servers-force', methods=['POST'])
+def import_servers_force():
+    """强制导入MCP服务器配置（覆盖已存在的）"""
+    try:
+        data = request.get_json()
+        if not data or 'mcpServers' not in data:
+            return jsonify({"status": "error", "message": "无效的导入数据格式"}), 400
+        
+        # 加载现有配置
+        config = load_config()
+        if 'mcpServers' not in config:
+            config['mcpServers'] = {}
+        
+        # 强制导入所有服务器（覆盖已存在的）
+        imported_count = 0
+        for server_name, server_config in data['mcpServers'].items():
+            config['mcpServers'][server_name] = server_config
+            imported_count += 1
+        
+        # 保存配置
+        save_config(config)
+        
+        return jsonify({
+            "status": "success", 
+            "message": f"成功导入 {imported_count} 个服务器",
+            "imported_count": imported_count
+        })
+        
+    except Exception as e:
+        print(f"强制导入服务器失败: {e}")
+        return jsonify({"status": "error", "message": f"导入失败: {str(e)}"}), 500
 
 
 # ------------------------------
