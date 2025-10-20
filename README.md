@@ -1,7 +1,7 @@
 本项目的主体程序从mcp-calculator中fork后创建。
 fork from GitHub：https://github.com/78/mcp-calculator
 
-# MCP Admin Sample Project | MCP 示例项目
+# mcptool管理工具
 
 A powerful interface for extending AI capabilities through remote control, calculations, email operations, knowledge search, and more.
 
@@ -137,6 +137,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - Thanks to all contributors who have helped shape this project | 感谢所有帮助塑造这个项目的贡献者
 - Inspired by the need for extensible AI capabilities | 灵感来源于对可扩展AI能力的需求
+
 
 
 
