@@ -32,16 +32,7 @@ pip install -r requirements.txt
 
 2. Set up environment variables | 设置环境变量:
 
-    ①短期临时设置环境变量
-```bash
-export MCP_ENDPOINT=<your_mcp_endpoint>
-```
-
-②长期设置，请在本例程的.env文件中设置。
-in .env file to set a long time environment varibles.
-```
-MCP_ENDPOINT=wss://api.xxx.com/ssdfqFGW
-```
+②长期设置，请在mcp.config.json文件中设置。
 
 3. Run And Stop
 ```bash
@@ -59,16 +50,12 @@ python mcptool.py stop
 pyton mcptool.py status
 ```
 
-Or run web configured admin servers | 或运行网页版配置服务更简单:
-```bash
-
-python mcptool.py web
-
-#or diy the port
-python mcptool.py web --port 6789
+您可以使用快捷方式：
 ```
-
-Web管理界面已启动，访问 http://localhost:6789
+mcptool stop
+mcptool start
+```
+启动mcptool服务后，Web管理界面自动跟随启动，访问 http://localhost:6789
  * Serving Flask app 'mcp_web'
  * Debug mode: off
 WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
@@ -150,6 +137,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - Thanks to all contributors who have helped shape this project | 感谢所有帮助塑造这个项目的贡献者
 - Inspired by the need for extensible AI capabilities | 灵感来源于对可扩展AI能力的需求
+
 
 
 
